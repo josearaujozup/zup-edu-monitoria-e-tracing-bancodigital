@@ -6,7 +6,7 @@ spring:
     hibernate:
       ddl-auto: none
   datasource:
-    url: jdbc:h2:~/bancodigital
+    url: jdbc:h2:~/bancodigital34
     username: root
     password: root
     driver-class-name: org.h2.Driver

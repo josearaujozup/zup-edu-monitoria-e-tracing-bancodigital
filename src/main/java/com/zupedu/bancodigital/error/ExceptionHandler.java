@@ -1,6 +1,8 @@
 package com.zupedu.bancodigital.error;
 
 import com.zupedu.bancodigital.transferencia.ContaAgenciaNumeroInexistente;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -10,6 +12,8 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class ExceptionHandler {
+
+    Logger logger = LoggerFactory.getLogger(ExceptionHandler.class);
 
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleDatabaseErrors(RuntimeException e, WebRequest request) {
@@ -21,6 +25,9 @@ public class ExceptionHandler {
                 "timestamp", LocalDateTime.now(),
                 "message", "Ocorreu um erro interno. Por favor contate o administrador."
         );
+
+        logger.error("Erro : "+ e.getMessage(), e);
+
         return ResponseEntity
                 .internalServerError().body(body);
     }
@@ -35,6 +42,9 @@ public class ExceptionHandler {
                 "timestamp", LocalDateTime.now(),
                 "message", e.getMessage()
         );
+
+        logger.error("Erro : "+ e.getMessage(), e);
+
         return ResponseEntity.unprocessableEntity().body(body);
     }
 }
